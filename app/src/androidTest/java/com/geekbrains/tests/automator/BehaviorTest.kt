@@ -114,6 +114,33 @@ class BehaviorTest {
         Assert.assertEquals(changedText.text, "Number of results: 0")
     }
 
+    @Test
+    fun test_OpenDetailsScreenAndShowRepositoryCount() {
+        val editText = uiDevice.findObject(By.res(packageName, "searchEditText"))
+        editText.text = "Algol"
+
+        val searchButton: UiObject2 = uiDevice.findObject(
+            By.res(packageName, "searchButton")
+        )
+        searchButton.click()
+        val changeText = uiDevice.wait(
+            Until.findObject(By.res(packageName, "totalCountTextView")),
+            TIMEOUT
+        )
+        Assert.assertNotNull(changeText.text.toString())
+
+        val toDetailsActivityButton: UiObject2 = uiDevice.findObject(
+            By.res(packageName, "toDetailsActivityButton")
+        )
+        toDetailsActivityButton.click()
+
+        val totalCountTextView = uiDevice.wait(
+            Until.findObject(By.res(packageName, "totalCountTextView")), TIMEOUT
+        )
+
+        Assert.assertEquals(totalCountTextView.text.toString(),"Number of results: 42")
+    }
+
     companion object {
         private const val TIMEOUT = 5000L
     }
